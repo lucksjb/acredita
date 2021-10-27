@@ -1,0 +1,378 @@
+{
+    "people": [{
+            "cpf": "GsD-8RL3SdTM2YdCmkUWzw==",
+            "dtNasc": "CTB5r8ec4Lk01swEgAazxQ==",
+            "nome": "T3GzodLoPJNo8pOP8QSoIw==",
+            "endereco": {
+                "logradouro": "YmYwXsw020BqX5BZEeZnHFszuAiKyOZgvtXa2G57shqcBU3k5xzaCUe7zWRrlNPU",
+                "cidade": "XaFQ4hx2zKjz5gH57hEo9g==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "byH8U_tpluLo3BlC7ICCZg==",
+                "cep": "rtt9gAuaQE1SvVQok75w9w=="
+            },
+            "dividas": [{
+                    "credora": "dFNCeIytoVuJTszZb7XvvQ==",
+                    "valor": 213.54
+                },
+                {
+                    "credora": "-OCbiNKJiq-omGawQRLFhw==",
+                    "valor": 1000
+                },
+                {
+                    "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                    "valor": 1263.44
+                },
+                {
+                    "credora": "tSdWfj7xUJSdXz5hR04UEA==",
+                    "valor": 123.54
+                }
+            ],
+            "uid": "04ba9ccd-424a-420a-b4c0-ac4e7c91f557"
+        },
+        {
+            "cpf": "jRlF2BEGVuBxeiiSk89EGg==",
+            "dtNasc": "fwfhMDGrsyus_bMUVcfnYA==",
+            "nome": "I6hr-EIt6ar97E9BdiCU7w==",
+            "endereco": {
+                "logradouro": "mHGFuR0f92w1S0IjfvdzuMmZmNAPtT-7JO-pBgHnTlo=",
+                "cidade": "XaFQ4hx2zKjz5gH57hEo9g==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "byH8U_tpluLo3BlC7ICCZg==",
+                "cep": "4hEA6JujnDxdP8OQdtDZ9w=="
+            },
+            "dividas": [{
+                "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                "valor": 700.00
+            }],
+            "uid": "8d98652d-060c-465c-b2bc-51eeca816d28"
+        },
+        {
+            "cpf": "AEpcUtAiKIbXQdKDjiGk_w==",
+            "dtNasc": "6jpvYQ1VtZvkIy4q93pKkw==",
+            "nome": "vAW4vBgNV3kR7yGd8hfPDAvDVEanNtgy4E7BD0JkwAM=",
+            "endereco": {
+                "logradouro": "zJCOKCK08mAdmLDsZMIu3OykfDhR5qrtwFMV7m_hh0E=",
+                "cidade": "XaFQ4hx2zKjz5gH57hEo9g==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "MANJA4DfLwljfN5Tw-0KCQ==",
+                "cep": "mgwzBUNSUdUL1RIl0HVDKg=="
+            },
+            "dividas": [{
+                    "credora": "-OCbiNKJiq-omGawQRLFhw==",
+                    "valor": 800
+                },
+                {
+                    "credora": "tSdWfj7xUJSdXz5hR04UEA==",
+                    "valor": 1234
+                }
+            ],
+            "uid": "79071c9d-1e39-4ee1-aecd-07a7a9a8b4b3"
+        },
+        {
+            "cpf": "Cit1-5OkAt9_9r32Q9a_0w==",
+            "dtNasc": "JsX5XnwScdzA7kZLXjydUA==",
+            "nome": "QBNh_mn7MRK-_BIfGfFMEw==",
+            "endereco": {
+                "logradouro": "k8Ano4sklLaZCUUwq_J5PbozcP2I8Pcu5pausc4AUX8=",
+                "cidade": "3MVf8hzfRUlWuLeQJMyYRw==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "cgXJU536YrxounZZ8tLehA==",
+                "cep": "jyc5oGhsWiDyVvd3FK7mfA=="
+            },
+            "dividas": [{
+                "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                "valor": 86.60
+            }],
+            "uid": "c03cd246-57c5-4207-b9f8-a0f7e3b81f38"
+        },
+        {
+            "cpf": "uuIXeIVW2AoBLhsUK6O1vA==",
+            "dtNasc": "I-7-qL2hqVn0UlHfCxNo9A==",
+            "nome": "BtM48ul-ISCHLCeMwd9RxA==",
+            "endereco": {
+                "logradouro": "gsTumI3IA83BCC7iFbyAztzZ4rE777LYSlrqbHq8R9c=",
+                "cidade": "3MVf8hzfRUlWuLeQJMyYRw==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "d67Zcdb9jZZMQWMnCS7vVA==",
+                "cep": "y8ct0V8qEzCmFMIe7adipA=="
+            },
+            "dividas": [{
+                    "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                    "valor": 580
+                },
+                {
+                    "credora": "tSdWfj7xUJSdXz5hR04UEA==",
+                    "valor": 756
+                },
+                {
+                    "credora": "dFNCeIytoVuJTszZb7XvvQ==",
+                    "valor": 454.17
+                }
+            ],
+            "uid": "9d917d1f-d539-4aba-b241-61f3a45f186d"
+        },
+        {
+            "cpf": "nqoXgKYX6lJ9pQhIfcLp8w==",
+            "dtNasc": "dnsNxoXwKFxyosHyXchzJg==",
+            "nome": "p-8oOkgHhea0Hhdj7OF-Ig==",
+            "endereco": {
+                "logradouro": "rDqAWt6Hv2KXrOdV9TcLrP56X4M78PG7aFzbimhPOxY=",
+                "cidade": "3MVf8hzfRUlWuLeQJMyYRw==",
+                "uf": "P0SSmg1mA3O5gXUKWTYURQ==",
+                "bairro": "WyXq6MrYC4K7eibscVnV1Q==",
+                "cep": "pMPbNR4ya5s4wE4ZeonMPA=="
+            },
+            "dividas": [{
+                "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                "valor": 154
+            }],
+            "uid": "a17011ca-8c26-4fba-81b1-ecbe1c060797"
+        },
+        {
+            "cpf": "T3vZPI_WjEmsX7VRAFLbQw==",
+            "dtNasc": "cFbF6cDkDNC8Dh3gNo9HwQ==",
+            "nome": "WRAxjx57sK4k3THC8UfPuhfH5xWLwLtQtt87svCr3MA=",
+            "endereco": {
+                "logradouro": "DEzNjb2KA_nJ_GB9-SApCGh1f19DskPnc3Q8NMqop6g=",
+                "cidade": "hZVbh4o_8lCjX2Pi8re7PQSNZH1BohZ7lc4TasSE5qs=",
+                "uf": "P0SSmg1mA3O5gXUKWTYURQ==",
+                "bairro": "qIuKw8iIGzlMUz0WkFMLkg==",
+                "cep": "KiFudENYPEAApkeah7qIgA=="
+            },
+            "dividas": [{
+                "credora": "dFNCeIytoVuJTszZb7XvvQ==",
+                "valor": 456
+            }],
+            "uid": "89431a5c-3404-11ec-8d3d-0242ac130003"
+        },
+        {
+            "cpf": "_qJGin587wWzRCz4zkFOwA==",
+            "dtNasc": "vbcO3eSKhq9eNy47Mlc_-g==",
+            "nome": "_sKH9rCaELnDqCUOerArew==",
+            "endereco": {
+                "logradouro": "_moiPBff3f73OydoCmI1Tn_H78dLIevoIxqAOQ3kE2U=",
+                "cidade": "XaFQ4hx2zKjz5gH57hEo9g==",
+                "uf": "5kcPsBu0RaFWkNeURoS83Q==",
+                "bairro": "byH8U_tpluLo3BlC7ICCZg==",
+                "cep": "VrhDXj40C5UV8qtbgSJ97Q=="
+            },
+            "dividas": [{
+                    "credora": "tSdWfj7xUJSdXz5hR04UEA==",
+                    "valor": 888.44
+                },
+                {
+                    "credora": "3QiwT9h6SoV4CP3bZ-YO0g==",
+                    "valor": 335.54
+                }
+            ],
+            "uid": "6142ab1f-297f-46b5-87d6-0b090844629a"
+        },
+        {
+            "cpf": "2b2iL3-ivtLspPn9uBCn-A== ",
+            "dtNasc": "gWYiah8XE-27lsGabcM4Tw==",
+            "nome": "Rba1geL5naeU3EMLzZoq_Q==",
+            "endereco": {
+                "logradouro": "1gtkKn2bYWYfr2sn2zsfxg9wXeerj8EYpFp2nrrGDBk=",
+                "cidade": "XaFQ4hx2zKjz5gH57hEo9g==",
+                "uf": "o2rL2H2AUsVZEhfDgNSa2w==",
+                "bairro": "byH8U_tpluLo3BlC7ICCZg==",
+                "cep": "KnrqKBqz9xD_jx2xluMfLw=="
+            },
+            "dividas": [],
+            "uid": "97e85ffe-8b1a-4bff-9899-b92c7c8e7792"
+        }
+    ],
+    "income-and-possessions": [{
+            "uid": "04ba9ccd-424a-420a-b4c0-ac4e7c91f557",
+            "idade": 49,
+            "bens": [{
+                    "tipo": "CASA",
+                    "valor": 300000.00
+                },
+                {
+                    "tipo": "BARRACAO",
+                    "valor": 200000.00
+                },
+                {
+                    "tipo": "CHACARA",
+                    "valor": 200000.00
+                }
+            ],
+            "fonteRenda": "EMPRESARIO",
+            "renda": 10000.00
+        },
+        {
+            "uid": "8d98652d-060c-465c-b2bc-51eeca816d28",
+            "idade": 26,
+            "bens": [],
+            "fonteRenda": "ASSALARIADO",
+            "renda": 1800.00
+        },
+        {
+            "uid": "79071c9d-1e39-4ee1-aecd-07a7a9a8b4b3",
+            "idade": 21,
+            "bens": [],
+            "fonteRenda": "ESTUDANTE",
+            "renda": 0.00
+        },
+        {
+            "uid": "c03cd246-57c5-4207-b9f8-a0f7e3b81f38",
+            "idade": 35,
+            "bens": [{
+                "tipo": "CASA",
+                "valor": 150000.00
+            }],
+            "fonteRenda": "ASSALARIADO",
+            "renda": 2700.00
+        },
+        {
+            "uid": "9d917d1f-d539-4aba-b241-61f3a45f186d",
+            "idade": 54,
+            "bens": [{
+                "tipo": "CASA",
+                "valor": 450000.00
+            }],
+            "fonteRenda": "EMPRESARIO",
+            "renda": 22000.00
+        },
+        {
+            "uid": "a17011ca-8c26-4fba-81b1-ecbe1c060797",
+            "idade": 34,
+            "bens": [],
+            "fonteRenda": "DESEMPREGADO",
+            "renda": 0.00
+        },
+        {
+            "uid": "89431a5c-3404-11ec-8d3d-0242ac130003",
+            "idade": 26,
+            "bens": [],
+            "fonteRenda": "ESTUDANTE",
+            "renda": 0.00
+        },
+        {
+            "uid": "6142ab1f-297f-46b5-87d6-0b090844629a",
+            "idade": 31,
+            "bens": [],
+            "fonteRenda": "ASSALARIADO",
+            "renda": 3270.00
+        },
+        {
+            "uid": "97e85ffe-8b1a-4bff-9899-b92c7c8e7792",
+            "idade": 48,
+            "bens": [],
+            "fonteRenda": "DESEMPREGADO",
+            "renda": 0.00
+        }
+    ],
+    "events": [{
+            "uid": "04ba9ccd-424a-420a-b4c0-ac4e7c91f557",
+            "ultConsulta": "2021-07-22T08:45:55",
+            "movfinan": [{
+                    "instituicao": "BRADESCO",
+                    "valorMov": 25000.00
+                },
+                {
+                    "instituicao": "SANTANDER",
+                    "valorMov": 16000.00
+                }
+            ],
+            "ultCompraCartao": {
+                "data": "2021-10-22T17:33:21",
+                "valor": 750.00
+            }
+        },
+        {
+            "uid": "8d98652d-060c-465c-b2bc-51eeca816d28",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "CAIXA ECONOMICA FEDERAL",
+                "valorMov": 13000.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 4.52
+            }
+        },
+        {
+            "uid": "79071c9d-1e39-4ee1-aecd-07a7a9a8b4b3",
+            "ultConsulta": "2021-03-12T09:47:56",
+            "movfinan": [],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 8.75
+            }
+        },
+        {
+            "uid": "c03cd246-57c5-4207-b9f8-a0f7e3b81f38",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "NUBANK",
+                "valorMov": 11000.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 352.65
+            }
+        },
+        {
+            "uid": "9d917d1f-d539-4aba-b241-61f3a45f186d",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "C6 BANK",
+                "valorMov": 2350.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 657.65
+            }
+        },
+        {
+            "uid": "a17011ca-8c26-4fba-81b1-ecbe1c060797",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "NUBANK ",
+                "valorMov": 32.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 1.65
+            }
+        },
+        {
+            "uid": "89431a5c-3404-11ec-8d3d-0242ac130003",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "C6 BANK",
+                "valorMov": 6663.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 666.42
+            }
+        },
+        {
+            "uid": "6142ab1f-297f-46b5-87d6-0b090844629a",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "CAIXA ECONOMICA FEDERAL",
+                "valorMov": 1785.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 950.32
+            }
+        },
+        {
+            "uid": "97e85ffe-8b1a-4bff-9899-b92c7c8e7792",
+            "ultConsulta": "2021-10-15T09:47:56",
+            "movfinan": [{
+                "instituicao": "C6 BANK",
+                "valorMov": 789.00
+            }],
+            "ultCompraCartao": {
+                "data": "2021-10-22T19:37:21",
+                "valor": 22.65
+            }
+        }
+    ]
+}

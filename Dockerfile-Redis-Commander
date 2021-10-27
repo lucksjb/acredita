@@ -1,0 +1,19 @@
+# build
+# docker build -t luck/redis-commander -f Dockerfile-Redis-Commander .
+# docker run luck/redis-commander
+
+FROM node:15
+
+ENV REDIS_HOST="host.docker.internal"
+ENV REDIS_PORT="6379"
+
+WORKDIR /usr/src/app
+
+RUN npm install -g redis-commander
+
+EXPOSE 8081
+
+ENTRYPOINT ["redis-commander"]
+#ENTRYPOINT ["redis-commander --redis-host=$REDIS_HOST} --redis-port=$REDIS_PORT"]
+
+

@@ -1,0 +1,208 @@
+#
+# to build: 
+#   docker-compose -f docker-compose-dev.yaml up -d --build
+# just to run 
+#   docker-compose -f docker-compose-dev.yaml up -d 
+# to down 
+# docker-compose -f docker-compose-dev.yaml down
+version: '3'
+
+services: 
+### Json=server  
+    json-server:
+        image: clue/json-server
+        container_name: json-server
+
+        tty: true
+
+        volumes:
+            - .\db.json:/data/db.json
+
+        ports:
+            - 81:80
+
+        networks: 
+            - app-net
+
+    db:
+        image: mysql:8.0.20
+        container_name: db
+
+        tty: true
+
+        ports:
+            - 3307:3306
+        
+        volumes:
+            - .\mysqldata:/var/lib/mysql
+
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_DATABASE: authenticator
+            MYSQL_USER: root
+            INNODB_FORCE_RECOVERY: 1
+
+        networks:
+            - app-net
+
+    nginx:
+        build: 
+            context: .
+            dockerfile: Dockerfile-nginx
+        image: luck/mynginx
+
+        container_name: nginx
+        ports: 
+            - "80:80"
+
+        depends_on: 
+            - db
+            - redis 
+
+        networks: 
+            - app-net
+
+    redis:
+        image: redis:6.2.3
+        container_name: redis
+        ports:
+            - 6379:6379
+
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping"]
+            interval: 1s
+            timeout: 3s
+            retries: 30
+
+        networks: 
+            - app-net
+
+            
+    redis-commander:
+        build: 
+            context: .
+            dockerfile: Dockerfile-Redis-Commander
+        image: luck/redis-commander
+        container_name: redis-commander
+
+        ports:
+            - 3000:8081
+        
+        tty: true
+        environment:
+            - REDIS_HOSTS=redis 
+            - REDIS_HOST=redis
+            - REDIS_PORT=redis:6379            
+            # - REDIS_HOST=redis
+            # - REDIS_PORT=6379
+            # - REDIS_HOSTS=local:redis:6379
+            # - HTTP_PASSWORD_FILE
+            # - HTTP_PASSWORD_HASH_FILE
+            # - REDIS_SOCKET
+            # - REDIS_TLS
+            # - REDIS_PASSWORD
+            # - REDIS_PASSWORD_FILE
+            # - REDIS_DB
+            # - REDIS_HOSTS
+            # - REDIS_OPTIONAL
+            # - SENTINEL_PORT
+            # - SENTINEL_HOST
+            # - SENTINEL_NAME
+            # - SENTINEL_PASSWORD
+            # - SENTINEL_PASSWORD_FILE
+            # - SENTINELS
+            # - K8S_SIGTERM
+
+        networks: 
+            - app-net
+
+    authorization-server:
+        build: 
+            context: .
+            dockerfile: Dockerfile-authorization-server
+        image: luck/authorization-server
+        container_name: authorizationserver
+        ports:
+            - 8081:8080
+
+        depends_on:
+            - db
+            - redis 
+
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        
+        tty: true
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - SPRING_REDIS_HOST=redis
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=root 
+
+        networks: 
+            - app-net
+
+    score-api:
+        build: 
+            context: .
+            dockerfile: Dockerfile-score-api
+        image: luck/score-api
+        container_name: score-api
+
+        ports:
+            - 8082:8080
+
+        depends_on:
+            - db
+            - redis 
+
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        
+        tty: true
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - SPRING_REDIS_HOST=redis
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=root 
+
+        networks: 
+            - app-net
+
+    ## finalmente a api customer 
+    customer:
+        build: 
+            context: .
+            dockerfile: Dockerfile-customer-api
+        image: luck/customer-api
+
+        depends_on:
+            - db
+            - redis 
+
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        
+        tty: true
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/customer?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - SPRING_REDIS_HOST=redis
+            - SPRING_REDIS_PORT=6379
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=root 
+            # - OTHER_API_PEOPLE=http://localhost:81/people
+            # - OTHER_API_INCOME=http://localhost:81/income-and-possessions
+            # - OTHER_API_EVENTS=http://localhost:81/events
+            # - OTHER_API_AUTH=http://localhost:8081/oauth/token
+            - OTHER_API_PEOPLE=http://json-server:80/people
+            - OTHER_API_INCOME=http://json-server:80/income-and-possessions
+            - OTHER_API_EVENTS=http://json-server:80/events
+            - OTHER_API_SCORE=http://score-api:8080/api/private/scores
+            - OTHER_API_AUTH=http://localhost:8081/oauth/token
+
+
+
+        networks: 
+            - app-net
+
+ 
+networks: 
+    app-net:
+        driver: bridge     

@@ -1,0 +1,26 @@
+# To build 
+# docker build -t lucksjb/cartao-ponto-api -f Dockerfile-Java-prod ..
+
+FROM openjdk:14-alpine as builder
+
+LABEL maintener="lucksjb@gmail.com"
+ENV LANG C.UTF-8
+
+ARG JAR_FILE
+
+WORKDIR /usr/app
+
+RUN apk update && apk add wget && apk add bash
+
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+# utilizacao do DOCKERIZE - dockerize -wait tcp://db:3306 -wait tcp://my-redis:6379 -timeout 20s docker-entrypoint.sh
+COPY ./authorization-server/target/authorization-server.jar /usr/app/app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT [ "java","-jar","app.jar" ]
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xml>
+<menu>
+	<subMenu id="010" label="Opções Basicas">
+		<menuItem id="010.010" label="Score" route="score">
+			<endPoint id="010.010.040" label="consultaScorePorCPF"
+				endPoint="Score.consultaScorePorCPF" />
+		</menuItem>
+	</subMenu>
+
+	<divisor id="seg.000" />
+	<subMenu id="seg" label="Segurança">
+		<menuItem id="seg.010" label="Perfis" route="perfis">
+			<endPoint id="seg.010.040" label="Pesquisar"
+				endPoint="PerfilUsuario.Pesquisar" />
+			<endPoint id="seg.010.050" label="Incluir"
+				endPoint="PerfilUsuario.Incluir" />
+			<endPoint id="seg.010.060" label="Alterar"
+				endPoint="PerfilUsuario.Alterar" />
+			<endPoint id="seg.010.070" label="Apagar"
+				endPoint="PerfilUsuario.Apagar" />
+		</menuItem>
+		<divisor id="seg.015" />
+		<menuItem id="seg.020" label="Usuários" route="usuarios">
+			<endPoint id="seg.020.040" label="Pesquisar"
+				endPoint="Usuario.Pesquisar" />
+			<endPoint id="seg.020.050" label="Incluir"
+				endPoint="Usuario.Incluir" />
+			<endPoint id="seg.020.060" label="Alterar"
+				endPoint="Usuario.Alterar" />
+			<endPoint id="seg.020.070" label="Apagar"
+				endPoint="Usuario.Apagar" />
+		</menuItem>
+		
+		<menuItem id="seg.030" label="Alterar minha senha" route="alterarMinhaSenha">
+			<endPoint id="seg.030.040" label="Alterar Senha"
+				endPoint="Usuario.AlterarSenha" />
+		</menuItem>
+		
+	</subMenu>
+</menu>
