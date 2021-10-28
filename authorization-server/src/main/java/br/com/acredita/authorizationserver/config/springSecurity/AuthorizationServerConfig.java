@@ -49,13 +49,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 						.scopes("read", "write")
 						.authorizedGrantTypes("password", "refresh_token")
 						.accessTokenValiditySeconds(60 * 60 * 10) // 10 horas
-						.refreshTokenValiditySeconds(60 * 60 * 18); // 18 horas
-				// .and()
-				// 	.withClient("internal")
-				// 		.secret(passwordEncoder.encode("batatinha-frita-123")) 
-				// 		.scopes("read", "write")
-				// 		.authorizedGrantTypes("client_credentials")
-				// 		.accessTokenValiditySeconds(60 * 60 * 48); // 48 horas
+						.refreshTokenValiditySeconds(60 * 60 * 18) // 18 horas
+				.and()
+					.withClient("internal")
+						.secret(passwordEncoder.encode("batatinha-frita-123")) 
+						.scopes("read", "write")
+						.authorizedGrantTypes("client_credentials")
+						.accessTokenValiditySeconds(60 * 60 * 48); // 48 horas
 
 
 	}
@@ -65,16 +65,24 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
 
-		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).reuseRefreshTokens(false)
-				.userDetailsService(userDetailsService).authenticationManager(authenticationManager);
+		endpoints.tokenStore(tokenStore())
+				.tokenEnhancer(tokenEnhancerChain)
+				.reuseRefreshTokens(false)
+				.userDetailsService(userDetailsService)
+				.authenticationManager(authenticationManager);
 	}
+
+	//implementação JWKS - JSON WEB WEK SET RFC 7517
+	// https://www.bortzmeyer.org/7517.pdf
+
 
 	// Permite obter chave publica :
 	// http://localhost:8081/oauth/check_token
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		// security.checkTokenAccess("isAuthenticated()");
-		security.checkTokenAccess("permitAll()").tokenKeyAccess("permitAll()").allowFormAuthenticationForClients();
+		security.checkTokenAccess("permitAll()")
+		.tokenKeyAccess("permitAll()")
+		.allowFormAuthenticationForClients();
 	}
 
 	@Bean
@@ -100,6 +108,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return jwtAccessTokenConverter;
 	}
 
+		
 	@Bean
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());

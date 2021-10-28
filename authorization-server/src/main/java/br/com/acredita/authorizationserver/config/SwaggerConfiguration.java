@@ -2,8 +2,11 @@ package br.com.acredita.authorizationserver.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +18,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 
-import com.google.common.collect.Lists;
-
+import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.GrantType;
+import springfox.documentation.service.ResourceOwnerPasswordCredentialsGrant;
 import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -50,8 +54,6 @@ public class SwaggerConfiguration {
     	watch.start();
         log.debug("Starting Swagger");
 
-        //@SuppressWarnings("rawtypes")
-		// List<VendorExtension> vext = new ArrayList<>();
         @SuppressWarnings("deprecation")
 		ApiInfo apiInfo = new ApiInfo(
         		"aCredita - Authorizarion server",
@@ -73,8 +75,8 @@ public class SwaggerConfiguration {
             .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
             .directModelSubstitute(java.time.ZonedDateTime.class, Date.class)
             .directModelSubstitute(java.time.LocalDateTime.class, Date.class)
-            .securityContexts(Lists.newArrayList(securityContext()))
-            .securitySchemes(Lists.newArrayList(apiKey()))
+            .securitySchemes(Arrays.asList(securityScheme()))
+            .securityContexts(Arrays.asList(securityContext()))
             .useDefaultResponseMessages(false);
 
         docket = docket.select()
@@ -87,17 +89,6 @@ public class SwaggerConfiguration {
     }
 
 
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
-    }
-
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN))
-            .build();
-    }
-
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
             = new AuthorizationScope("global", "accessEverything");
@@ -106,4 +97,35 @@ public class SwaggerConfiguration {
         return Lists.newArrayList(
             new SecurityReference("JWT", authorizationScopes));
     }
+
+
+    // authentication
+    private SecurityScheme securityScheme() {
+		return new OAuthBuilder()
+				.name("myScheme")
+				.grantTypes(grantTypes())
+				.scopes(scopes())
+				.build();
+	}
+
+    private List<GrantType> grantTypes() {
+		return Arrays.asList(new ResourceOwnerPasswordCredentialsGrant("/oauth/token"));
+	}
+
+    private List<AuthorizationScope> scopes() {
+		return Arrays.asList(new AuthorizationScope("read", "Acesso de leitura"),
+				new AuthorizationScope("write", "Acesso de escrita"));
+	}
+
+    private SecurityContext securityContext() {
+		var securityReference = SecurityReference.builder()
+				.reference("myScheme")
+				.scopes(scopes().toArray(new AuthorizationScope[0]))
+				.build();
+		
+		return SecurityContext.builder()
+				.securityReferences(Arrays.asList(securityReference))
+				.forPaths(PathSelectors.any())
+				.build();
+	}
 }
