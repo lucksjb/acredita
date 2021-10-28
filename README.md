@@ -53,7 +53,7 @@ Base C - **events** - eventos relacionados a esse CPF
 ## O que foi desenvolvido:
 
 Foram desenvolvidas 3 APIs
-* authorizarion-server - como o próprio nome diz é um [**authorization server**](./authorization-server) ou seja, mediante usuário/senha o cliente da __aCredita__ consegue receber um token que lhe permitirá acessar a api [**customer**](./customer-api), que é a principal API desenvolvida. (o fluxo utilizado no authorization server foi o [*resource owner password credential*](#ROPC))
+* authorization-server - como o próprio nome diz é um [**authorization server**](./authorization-server) ou seja, mediante usuário/senha o cliente da __aCredita__ consegue receber um token que lhe permitirá acessar a api [**customer**](./customer-api), que é a principal API desenvolvida. (o fluxo utilizado no authorization server foi o [*resource owner password credential*](#ROPC))
 
 
 a API customer-api por sua vez, acessa a **people-api**, desencripta os dados, busca de forma **assincrona** nas bases **income-and-possessions-api** e **events-api**, em posse dos dados dessas 3 APIs, consolida tudo em um DTO [](customer-api/src/main/java/br/com/acredita/customer/DTOin/CalculaScoreDTOin.java) e consome a API [**score-api**](./score-api) que faz que irá efeturar o calculo de score e retornar um numero de 0 - 100 representando o score da pessoa pesquisada.
