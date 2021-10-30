@@ -9,6 +9,9 @@ score-api/logs/
 customer-api/target/
 customer-api/logs/
 
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
