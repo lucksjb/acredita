@@ -12,7 +12,11 @@ resource "aws_instance" "instances" {
 
   key_name = aws_key_pair.par-de-chaves.key_name
 
-  vpc_security_group_ids = [aws_security_group.permite-ssh.id, aws_security_group.permite-acessar-internet.id]
+  vpc_security_group_ids = [aws_security_group.permite-ssh.id
+      ,aws_security_group.permite-acessar-internet.id
+      ,aws_security_group.cluster_communication.id
+      ,aws_security_group.allow_portainer.id]
+
 
 
   tags = {
