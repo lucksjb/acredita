@@ -24,6 +24,8 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CustomerService implements ICustomerService {
+    @Autowired
+    private LogService logService;
 
     @Autowired
     private IEncryptDecrypt encryptDecrypt;
@@ -100,6 +102,7 @@ public class CustomerService implements ICustomerService {
             .retrieve()
             .bodyToMono(Double.class);
          Double score = fluxCalculaScore.block();
+         logService.sendMessage("logando "+personEncrypted.getUid()+"  score "+score);
         return score; 
     }
 
