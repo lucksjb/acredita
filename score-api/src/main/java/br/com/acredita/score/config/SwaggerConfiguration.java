@@ -54,8 +54,8 @@ public class SwaggerConfiguration {
 		// List<VendorExtension> vext = new ArrayList<>();
         @SuppressWarnings("deprecation")
 		ApiInfo apiInfo = new ApiInfo(
-        		"Score - API",
-        		"Api utilizada como facade das apis de - people, score e events ", 
+        		"aCredita - Score-API",
+        		"Api utilizada para calcular o score ", 
         		"20.1.0.0", 
         		"http:\\\\www.acredita.com.br\\score\\TermoDeServico.txt",
         		"lucksjb@gmail.com",

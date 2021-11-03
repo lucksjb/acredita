@@ -8,7 +8,7 @@
 version: '3'
 
 services: 
-### Json=server  
+# Json=server  
     json-server:
         image: clue/json-server
         container_name: json-server
@@ -24,6 +24,7 @@ services:
         networks: 
             - app-net
 
+# Mysql
     db:
         image: mysql:8.0.20
         container_name: db
@@ -45,6 +46,31 @@ services:
         networks:
             - app-net
 
+# authorization-server-api
+    authorization-server:
+        build: 
+            context: .
+            dockerfile: Dockerfile-authorization-server
+        image: luck/authorization-server
+        container_name: authorizationserver
+        ports:
+            - 8081:8080
+
+        depends_on:
+            - db
+
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        
+        tty: true
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=root 
+
+        networks: 
+            - app-net
+
+# NgInx
     nginx:
         build: 
             context: .
@@ -58,10 +84,13 @@ services:
         depends_on: 
             - db
             - redis 
+            - customer
+            - rabbitMQ
 
         networks: 
             - app-net
 
+# Redis
     redis:
         image: redis:6.2.3
         container_name: redis
@@ -77,7 +106,7 @@ services:
         networks: 
             - app-net
 
-            
+# redis-commander            
     redis-commander:
         build: 
             context: .
@@ -90,57 +119,49 @@ services:
         
         tty: true
         environment:
-            - REDIS_HOSTS=redis 
             - REDIS_HOST=redis
-            - REDIS_PORT=redis:6379            
-            # - REDIS_HOST=redis
-            # - REDIS_PORT=6379
-            # - REDIS_HOSTS=local:redis:6379
-            # - HTTP_PASSWORD_FILE
-            # - HTTP_PASSWORD_HASH_FILE
-            # - REDIS_SOCKET
-            # - REDIS_TLS
-            # - REDIS_PASSWORD
-            # - REDIS_PASSWORD_FILE
-            # - REDIS_DB
-            # - REDIS_HOSTS
-            # - REDIS_OPTIONAL
-            # - SENTINEL_PORT
-            # - SENTINEL_HOST
-            # - SENTINEL_NAME
-            # - SENTINEL_PASSWORD
-            # - SENTINEL_PASSWORD_FILE
-            # - SENTINELS
-            # - K8S_SIGTERM
+            - REDIS_PORT=6379
 
         networks: 
             - app-net
 
-    authorization-server:
-        build: 
-            context: .
-            dockerfile: Dockerfile-authorization-server
-        image: luck/authorization-server
-        container_name: authorizationserver
+# RabbitMQ
+    rabbitMQ:
+        image: rabbitmq:3.8.3-management
+        container_name: rabbitMQ
         ports:
-            - 8081:8080
+            - 5672:5672 # porta para troca de mensagens 
+            - 15672:15672 ## porta do gerenciador do rabbitmq
 
-        depends_on:
-            - db
-            - redis 
+        volumes:
+            - $PWD/storage/rabbitmq1:/var/lib/rabbitmq
 
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
-        
-        tty: true
         environment:
-            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
-            - SPRING_REDIS_HOST=redis
-            - SPRING_DATASOURCE_USERNAME=root
-            - SPRING_DATASOURCE_PASSWORD=root 
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=admin
+
+        networks: 
+            - app-net
+            
+# PhpMyAdmin
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: mySqlAdmin
+
+        tty: true
+
+        ports:
+            - 9090:80
+
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=db 
+            # PMA_HOST - na hora de logar informar apenas usuario e senha o host nao precisa
 
         networks: 
             - app-net
 
+# score-api
     score-api:
         build: 
             context: .
@@ -153,21 +174,52 @@ services:
 
         depends_on:
             - db
-            - redis 
-
+            
         entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
         
         tty: true
         environment:
             - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
-            - SPRING_REDIS_HOST=redis
             - SPRING_DATASOURCE_USERNAME=root
             - SPRING_DATASOURCE_PASSWORD=root 
 
         networks: 
             - app-net
 
-    ## finalmente a api customer 
+# application-log-api            
+    application-log-api:
+        build: 
+            context: .
+            dockerfile: Dockerfile-application-log-api
+        image: luck/application-log-api
+        container_name: application-log-api
+
+        ports:
+            - 8089:8080
+
+        entrypoint: dockerize -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379 -wait tcp://db:3306 -timeout 180s java -jar app.jar
+        
+        tty: true
+        environment:
+            - SPRING_RABBITMQ_HOST=rabbitMQ
+            - SPRING_RABBITMQ_PORT=5672
+            - SPRING_RABBITMQ_USERNAME=admin
+            - SPRING_RABBITMQ_PASSWORD=admin
+            - SPRING_REDIS_HOST=redis
+            - SPRING_REDIS_PORT=6379
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/logs?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=root 
+
+
+        depends_on:
+            - rabbitMQ
+
+        networks: 
+            - app-net
+
+
+# customer-api
     customer:
         build: 
             context: .
@@ -177,8 +229,10 @@ services:
         depends_on:
             - db
             - redis 
+            - rabbitMQ
+            - score-api
 
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        entrypoint: dockerize -wait tcp://db:3306 -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379  -wait tcp://score-api:8080  -timeout 180s java -jar app.jar
         
         tty: true
         environment:
@@ -196,13 +250,14 @@ services:
             - OTHER_API_EVENTS=http://json-server:80/events
             - OTHER_API_SCORE=http://score-api:8080/api/private/scores
             - OTHER_API_AUTH=http://localhost:8081/oauth/token
-
-
+            - SPRING_RABBITMQ_HOST=rabbitMQ
+            - SPRING_RABBITMQ_PORT=5672
+            - SPRING_RABBITMQ_USERNAME=admin
+            - SPRING_RABBITMQ_PASSWORD=admin
 
         networks: 
-            - app-net
-
- 
+            - app-net 
 networks: 
     app-net:
+        name: app-net
         driver: bridge     

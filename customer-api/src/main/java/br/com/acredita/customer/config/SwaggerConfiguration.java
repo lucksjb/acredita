@@ -54,7 +54,7 @@ public class SwaggerConfiguration {
 		// List<VendorExtension> vext = new ArrayList<>();
         @SuppressWarnings("deprecation")
 		ApiInfo apiInfo = new ApiInfo(
-        		"Customer - API",
+        		"aCredita - Customer-API",
         		"Api customer = utilizada pelo consumidor - uma facade que pesquisa  pessoas, bens e renda e eventos relacionados ao cpf", 
         		"20.1.0.0", 
         		"http:\\\\www.acredita.com.br\\customer\\TermoDeServico.txt",

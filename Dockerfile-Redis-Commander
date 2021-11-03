@@ -1,19 +1,42 @@
 # build
 # docker build -t luck/redis-commander -f Dockerfile-Redis-Commander .
 # docker run luck/redis-commander
-
+# documentação redis-commander https://github.com/lucksjb/redis-commander
 FROM node:15
-
-ENV REDIS_HOST="host.docker.internal"
-ENV REDIS_PORT="6379"
 
 WORKDIR /usr/src/app
 
 RUN npm install -g redis-commander
 
-EXPOSE 8081
+RUN echo "#!/bin/bash \n" > ./entrypoint.sh
+RUN echo "############################################################################" >>  ./entrypoint.sh
+RUN echo "### Esse script teve de ser criado porque o ENTRYPOINT do docker nao     ###" >>  ./entrypoint.sh
+RUN echo "### aceita variaveis de ambiente.                                        ###" >>  ./entrypoint.sh
+RUN echo "###  Conforme a documentacao:                                            ###" >>  ./entrypoint.sh
+RUN echo "###    https://docs.docker.com/engine/reference/builder/#env             ###" >>  ./entrypoint.sh
+RUN echo "###                                                                      ###" >>  ./entrypoint.sh
+RUN echo "### Environment variables are supported by the following list of         ###" >> ./entrypoint.sh
+RUN echo "### instructions in the Dockerfile:                                      ###" >> ./entrypoint.sh                                                       
+RUN echo "### ADD                                                                  ###" >> ./entrypoint.sh
+RUN echo "### COPY                                                                 ###" >> ./entrypoint.sh 
+RUN echo "### ENV                                                                  ###" >> ./entrypoint.sh
+RUN echo "### EXPOSE                                                               ###" >> ./entrypoint.sh
+RUN echo "### FROM                                                                 ###" >> ./entrypoint.sh
+RUN echo "### LABEL                                                                ###" >> ./entrypoint.sh
+RUN echo "### STOPSIGNAL                                                           ###" >> ./entrypoint.sh
+RUN echo "### USER                                                                 ###" >> ./entrypoint.sh
+RUN echo "### VOLUME                                                               ###" >> ./entrypoint.sh
+RUN echo "### WORKDIR                                                              ###" >> ./entrypoint.sh 
+RUN echo "### ONBUILD (when combined with one of the supported instructions above) ###" >> ./entrypoint.sh 
+RUN echo "###                                                                      ###" >>  ./entrypoint.sh
+RUN echo "############################################################################" >>  ./entrypoint.sh
+RUN echo "cat ./entrypoint.sh \n" >> ./entrypoint.sh
+RUN echo "redis-commander --redis-host=\${REDIS_HOST} --redis-port=\${REDIS_PORT} \n" >> ./entrypoint.sh
 
-ENTRYPOINT ["redis-commander"]
-#ENTRYPOINT ["redis-commander --redis-host=$REDIS_HOST} --redis-port=$REDIS_PORT"]
+  
+RUN chmod +x ./entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
+
 
 
