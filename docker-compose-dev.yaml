@@ -46,6 +46,21 @@ services:
         networks:
             - app-net
 
+# Jaeger - opentracing 
+# to access trace http://localhost/16686
+    tracer:
+        image: jaegertracing/all-in-one:1.28
+        container_name: tracer
+
+        ports:
+            - 6831:6831/udp
+            - 6832:6832/udp
+            - 16686:16686
+            - 14268:14268
+
+        networks: 
+            - app-net
+
 # authorization-server-api
     authorization-server:
         build: 
@@ -59,7 +74,7 @@ services:
         depends_on:
             - db
 
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 180s java -jar app.jar
         
         tty: true
         environment:
@@ -175,13 +190,15 @@ services:
         depends_on:
             - db
             
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s java -jar app.jar
+        entrypoint: dockerize -wait tcp://db:3306 -wait tcp://tracer:14268 -timeout 180s java -jar app.jar
         
         tty: true
         environment:
             - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/authorizationserver?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
             - SPRING_DATASOURCE_USERNAME=root
             - SPRING_DATASOURCE_PASSWORD=root 
+            - OPENTRACING_JAEGER_HTTP-SENDER_URL=http://tracer:14268/api/traces
+
 
         networks: 
             - app-net
@@ -197,7 +214,7 @@ services:
         ports:
             - 8089:8080
 
-        entrypoint: dockerize -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379 -wait tcp://db:3306 -timeout 180s java -jar app.jar
+        entrypoint: dockerize -wait tcp://tracer:14268 -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379 -wait tcp://db:3306 -timeout 180s java -jar app.jar
         
         tty: true
         environment:
@@ -210,10 +227,12 @@ services:
             - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/logs?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
             - SPRING_DATASOURCE_USERNAME=root
             - SPRING_DATASOURCE_PASSWORD=root 
+            - OPENTRACING_JAEGER_HTTP-SENDER_URL=http://tracer:14268/api/traces
 
 
         depends_on:
             - rabbitMQ
+            - tracer
 
         networks: 
             - app-net
@@ -230,9 +249,10 @@ services:
             - db
             - redis 
             - rabbitMQ
+            - tracer
             - score-api
 
-        entrypoint: dockerize -wait tcp://db:3306 -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379  -wait tcp://score-api:8080  -timeout 180s java -jar app.jar
+        entrypoint: dockerize -wait tcp://tracer:14268 -wait tcp://db:3306 -wait tcp://rabbitMQ:5672 -wait tcp://redis:6379  -wait tcp://score-api:8080  -timeout 360s java -jar app.jar
         
         tty: true
         environment:
@@ -254,6 +274,8 @@ services:
             - SPRING_RABBITMQ_PORT=5672
             - SPRING_RABBITMQ_USERNAME=admin
             - SPRING_RABBITMQ_PASSWORD=admin
+            - OPENTRACING_JAEGER_HTTP-SENDER_URL=http://tracer:14268/api/traces
+
 
         networks: 
             - app-net 

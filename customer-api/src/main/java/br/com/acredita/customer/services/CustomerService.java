@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +26,11 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CustomerService implements ICustomerService {
+    private static Logger log = LoggerFactory.getLogger(CustomerService.class);
+    
+    @Value("${spring.application.name}")
+    private static String applicationName;
+
     @Autowired
     private LogService logService;
 
@@ -48,6 +55,7 @@ public class CustomerService implements ICustomerService {
     @Override
     @Cacheable(CacheConfiguration.CUSTOMER)
     public Double consultaScorePorCPF(PersonFilter filter) {
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dtNasc = filter.getDtNasc().format(formatter);
 
@@ -55,6 +63,7 @@ public class CustomerService implements ICustomerService {
         String dtNascEnc = encryptDecrypt.encrypt(dtNasc, decryptPassword);
 
 
+        log.info("Pesquisa person no {} ", applicationName);
         Flux<PersonEncryptedDTOout> fluxPerson = webClientPerson.method(HttpMethod.GET)
                 .uri("?cpf={cpf}&dtNasc={dtNasc}", cpfEnc, dtNascEnc)
                 .retrieve()
@@ -65,11 +74,13 @@ public class CustomerService implements ICustomerService {
             throw new PessoaEncontradaException(filter.getCpf(), filter.getDtNasc());
         }
 
+        log.info("Pesquisa income and possesions no {} ", applicationName);
         Flux<IncomeAndPossessionsDTOout> fluxIncomeAndPossessions = webClientIncomeAndPossessions.method(HttpMethod.GET)
                 .uri("?uid={uid}", personEncrypted.getUid())
                 .retrieve()
                 .bodyToFlux(IncomeAndPossessionsDTOout.class);
 
+        log.info("Pesquisa events ", applicationName);
         Flux<EventDTOout> fluxEvent = webClientEvent.method(HttpMethod.GET)
                 .uri("?uid={uid}", personEncrypted.getUid())
                 .retrieve()
@@ -93,9 +104,8 @@ public class CustomerService implements ICustomerService {
             .valorTotalDividas(personEncrypted.getDividas().stream().mapToDouble(d -> d.getValor()).reduce((ant,valor) -> ant+valor ).orElseGet(() -> 0D) )
             .valorTotalMovFinaceira(event.getMovfinan().stream().mapToDouble(mf -> mf.getValorMov()).reduce((ant,valor) -> ant+valor).orElseGet(() -> 0D) )
             .build();
-
-        System.out.println("===================== "+calculaScoreDTOin);
         
+        log.info("Pesquisa score {}", applicationName);
         Mono<Double> fluxCalculaScore = webClientScore.method(HttpMethod.POST)
             .uri("/calcula-score")
             .bodyValue(calculaScoreDTOin)
