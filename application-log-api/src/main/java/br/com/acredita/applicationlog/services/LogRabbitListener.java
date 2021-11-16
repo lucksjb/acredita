@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import com.rabbitmq.client.Channel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,11 @@ import br.com.acredita.applicationlog.repositories.LogRepository;
 
 @Configuration
 public class LogRabbitListener {
+    private static final Logger log = LoggerFactory.getLogger(LogRabbitListener.class);
+ 
+    @Value("${spring.application.name}")
+    private static String applicationName;
+
     @Autowired
     private LogRepository logRepository;
 
@@ -30,6 +38,7 @@ public class LogRabbitListener {
        cacheManager.getCache(CacheConfiguration.LOG).clear(); // mesmo que @CacheEvict(....)  só que mais rapido 
 
         channel.basicAck(0L, true);  // será excluida da fila somente após este comando.
+        log.info("Logged {} ", applicationName);
     } 
     
 }

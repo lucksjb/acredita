@@ -1,5 +1,7 @@
 package br.com.acredita.customer.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,8 @@ import br.com.acredita.customer.services.CustomerService;
 @RestController
 @RequestMapping(RestControllerPath.Customer_PATH)
 public class CustomerController implements ICustomerController {
+    private static Logger log = LoggerFactory.getLogger(CustomerController.class);
+
     @Autowired
     private CustomerService service;
 
@@ -23,6 +27,7 @@ public class CustomerController implements ICustomerController {
     @PreAuthorize("hasRole('ROLE_Score.consultaScorePorCPF')")
     public ResponseEntity<Double> consultaScorePorCPF(@Validated PersonFilter filter)
     {
+       log.info("log teste", "controller");
        return ResponseEntity.ok().body(service.consultaScorePorCPF(filter));
     }
     

@@ -98,11 +98,13 @@ basta executar ./build.sh
 	**RabbitMQ** --> http://localhost:15672/ --> userName: admin, password: admin
 	**Redis-Commander** --> http://localhost:3000/
 	**mySqlAdmin**  --> http://localhost:9090 -> userName: root, password: root
-		
+	**Jaeger tracing** --> http://localhost:16686
+
 	**Authorization-server-api** --> http://localhost:8081/swagger-ui.html
 	**score-api** --> http://localhost:8082/swagger-ui.html
 	**customer-api** --> http://localhost/swagger-ui.html
 	**Log-api** --> http://localhost:8089/swagger-ui.html
+
 
 
 # A chave simétrica utilizada para encrypt/decrypt foi 'batatinha-frita1'
