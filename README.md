@@ -121,3 +121,8 @@ basta executar ./build.sh
 		28518300070 - 1990-04-01  
 		
 
+
+# DOCUMENTAÇÃO 
+[Jaeger - distribuited tracing documentation](https://www.jaegertracing.io/docs/1.28/architecture/)
+[Jaeger](https://medium.com/javarevisited/distributed-tracing-with-spring-boot-and-jaeger-619bcc13b0c4)
+[Open tracing with sleuth and zipkin](https://refactorfirst.com/distributed-tracing-with-spring-cloud-sleuth.html)
